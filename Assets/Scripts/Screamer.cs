@@ -1,16 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Screamer : MonoBehaviour {
 
-	// Use this for initialization
+	public GameObject Scream;
+	public bool IsScreaming;
+
+	// become private
+	public int ScreamStrength;
+
+	
+
 	void Start () {
-		
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		
 	}
 }

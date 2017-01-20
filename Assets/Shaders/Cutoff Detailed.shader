@@ -1,11 +1,13 @@
-﻿Shader "Custom/BenSeniAradim" {
+﻿Shader "Fabsolute/Cutout/Detailed" {
  Properties
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
-        _CutOff ("Cutoff", Range (0, 1)) = 0.5
-        _CutOffTop ("Cutoff Top", Range (0, 1)) = 0
-        _CutOffBottom ("Cutoff Bottom", Range (0, 1)) = 0
+        _CutOut ("Cutout", Range (0, 1)) = 0
+        _CutOutTop ("Cutout Top", Range (0, 1)) = 0
+        _CutOutTopStart ("Cutout Top Start", Range (0, 1)) = 0
+        _CutOutBottom ("Cutout Bottom", Range (0, 1)) = 0
+        _CutOutBottomStart ("Cutout Bottom Start", Range (0, 1)) = 0
     }
 
     SubShader
@@ -47,9 +49,11 @@
             };
 
             fixed4 _Color;
-            fixed _CutOff;
-            fixed _CutOffTop;
-            fixed _CutOffBottom;
+            fixed _CutOut;
+            fixed _CutOutTop;
+            fixed _CutOutBottom;
+            fixed _CutOutBottomStart;
+            fixed _CutOutTopStart;
 
             v2f vert(appdata_t IN)
             {
@@ -65,11 +69,16 @@
             fixed4 frag(v2f In) : COLOR
             {
                 half2 coord = In.texcoord;
-                if (coord.y > _CutOff){
-                    fixed alpha = tex2D(_MainTex,coord).a;
-                    if (alpha>0){
+                fixed alpha = tex2D(_MainTex,coord).a;
+                if (alpha > _CutOut){
+                        if (coord.y<(_CutOutBottom/2) && 1-coord.x > _CutOutBottomStart){
+                            return 0;
+                        }
+                        else if (coord.y >(1-(_CutOutTop/2) )&& 1-coord.x > _CutOutTopStart)
+                        {
+                            return 0;
+                        }
                         return In.color;
-                    }
                 }
                 return 0;
             }
