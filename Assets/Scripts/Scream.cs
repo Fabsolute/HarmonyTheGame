@@ -46,7 +46,6 @@ public class Scream : MonoBehaviour
 
 			if (obstaclePoints.IndexOf(nearest_point) == -1)
 			{
-				// (new GameObject()).transform.position = nearest_point;
 				obstaclePoints.Add(nearest_point);
 
 				var center = polygonCollider.bounds.center;
@@ -56,7 +55,10 @@ public class Scream : MonoBehaviour
 				{
 					case Direction.Left:
 						{
-							if (nearest_point.y < center.y) // Obstacle is below 
+							if (Mathf.Abs(nearest_point.y - center.y) < 0.01f)
+							{
+								Debug.Log("HAHA");
+							} else if (nearest_point.y < center.y) // Obstacle is below 
 							{
 								var cutOutValueY = 1 - (center.y - nearest_point.y) / (center.y - minPoint.y);
 								screamMaterial.SetFloat("_CutOutBottom", cutOutValueY);
