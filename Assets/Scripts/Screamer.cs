@@ -51,7 +51,7 @@ public class Screamer : MonoBehaviour
 
     private void CheckColliderOtherScreamers()
     {
-
+		
     }
 
     void OnMouseDown()

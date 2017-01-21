@@ -4,15 +4,6 @@ using System.Collections.Generic;
 
 public class Scream : MonoBehaviour 
 {
-	public enum Direction
-	{
-		RIGHT,
-		TOP,
-		LEFT,
-		BOTTOM,
-		UNKNOWN
-	};
-
 	private const float MIN_DIST = 0.01f;
 
 	public Screamer Screamer;
@@ -25,7 +16,6 @@ public class Scream : MonoBehaviour
 	private Material screamMaterial;
 	private PolygonCollider2D polygonCollider;
 	private List<Vector3> obstaclePoints = new List<Vector3>();
-	private Direction screamDirection = Direction.UNKNOWN;
 	void Start () {
 		
 		var screamSpriteRenderer =GetComponent<SpriteRenderer>();
@@ -33,30 +23,6 @@ public class Scream : MonoBehaviour
 			screamMaterial = screamSpriteRenderer.material;
 		}
 		polygonCollider = GetComponent<PolygonCollider2D>();
-
-		if (Mathf.Abs(polygonCollider.bounds.center.x - transform.position.x) > MIN_DIST)
-		{
-			if (polygonCollider.bounds.center.x < transform.position.x)
-			{
-				screamDirection = Direction.LEFT;
-			} else 
-			{
-				screamDirection = Direction.RIGHT;
-			}
-		} else if (Mathf.Abs(polygonCollider.bounds.center.y - transform.position.y) > MIN_DIST)
-		{
-			if (polygonCollider.bounds.center.y < transform.position.y)
-			{
-				screamDirection = Direction.BOTTOM;
-			} else 
-			{
-				screamDirection = Direction.TOP;
-			}	
-		} else 
-		{
-			screamDirection = Direction.UNKNOWN;
-			Debug.LogError("Unknown sceam direction " + gameObject.name);
-		}
 	}
 	
 	void Update () 
@@ -86,9 +52,9 @@ public class Scream : MonoBehaviour
 				var center = polygonCollider.bounds.center;
 				var minPoint = polygonCollider.bounds.min;
 				var maxPoint = polygonCollider.bounds.max;
-				switch (screamDirection)
+				switch (Screamer.Direction)
 				{
-					case Direction.LEFT:
+					case Direction.Left:
 						{
 							if (nearest_point.y < center.y) // Obstacle is below 
 							{
@@ -105,7 +71,7 @@ public class Scream : MonoBehaviour
 							}
 						}
 						break;
-					case Direction.RIGHT:
+					case Direction.Right:
 						{
 							if (nearest_point.y < center.y) // Obstacle is below 
 							{
