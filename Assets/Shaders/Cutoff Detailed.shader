@@ -78,6 +78,7 @@
                         {
                             return 0;
                         }
+                        In.color.a = 0.25;
                         return In.color;
                 }
                 return 0;
