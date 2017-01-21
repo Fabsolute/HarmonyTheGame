@@ -150,7 +150,7 @@ public class Scream : MonoBehaviour
 		obstaclePoints.Clear();
 	}
 
-	public void SetCutOut(float newValue)
+	public void SetCutout(float newValue)
 	{
 		screamMaterial.SetFloat("_CutOut", newValue);
 	}
