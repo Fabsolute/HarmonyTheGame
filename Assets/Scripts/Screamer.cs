@@ -3,12 +3,13 @@
 public class Screamer : MonoBehaviour
 {
 
-    public GameObject Scream;
+    public Scream Scream;
     public bool IsScreaming;
     // become private
     public int ScreamStrength;
 
     public bool IsLocked;
+    public bool IsStart;
 
     private bool IsDragging = false;
     private bool StartDragging = false;
@@ -25,6 +26,33 @@ public class Screamer : MonoBehaviour
         Renderer = GetComponent<SpriteRenderer>();
     }
 
+    void Update()
+    {
+        if (IsStart)
+        {
+            if (!IsScreaming)
+            {
+                if (Input.GetKeyUp(KeyCode.Space))
+                {
+                    IsScreaming = true;
+                    PTweenManager.Instance.RoutineTo(1, 1, 0, (callback) =>
+                       {
+                           Scream.SetCutout(callback);
+                       },
+                    () =>
+						{
+							CheckColliderOtherScreamers();
+						}
+					);
+                }
+            }
+        }
+    }
+
+    private void CheckColliderOtherScreamers()
+    {
+
+    }
 
     void OnMouseDown()
     {
@@ -36,7 +64,7 @@ public class Screamer : MonoBehaviour
     void OnMouseUp()
     {
         IsDragging = false;
-        if (Time.time - DragStartTime < 1)
+        if (Time.time - DragStartTime < 0.5f)
         {
             RotateCharacter();
         }
@@ -53,7 +81,7 @@ public class Screamer : MonoBehaviour
         }
         else if (!StartDragging)
         {
-            if (Time.time - DragStartTime > 1)
+            if (Time.time - DragStartTime > 0.5f)
             {
                 StartDragging = true;
             }
@@ -87,8 +115,8 @@ public class Screamer : MonoBehaviour
         }
         Renderer.sprite = Sprites[(int)Direction];
         Scream.transform.parent.eulerAngles = new Vector3(Scream.transform.parent.eulerAngles.x,
-        	Scream.transform.parent.eulerAngles.y,
-			90 * (int)Direction);
+            Scream.transform.parent.eulerAngles.y,
+            90 * (int)Direction);
     }
 
 }
