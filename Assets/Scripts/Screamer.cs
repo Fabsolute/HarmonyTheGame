@@ -1,28 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-public class Screamer : MonoBehaviour
+public class Screamer : InteractiveHarmonyMonoBehaviour
 {
-
     public Scream Scream;
-    public bool IsScreaming;
-    // become private
-    public int ScreamStrength;
-
     public bool IsLocked;
     public bool IsStart;
+    public float ScreamLength = 1;
 
+    public Sprite[] Sprites;
+    public Direction Direction;
+    public List<InteractiveHarmonyMonoBehaviour> OtherInteractives = new List<InteractiveHarmonyMonoBehaviour>();
+
+    private int ScreamStrength;
     private bool IsDragging = false;
     private bool StartDragging = false;
 
     private float DragStartTime = 0;
     private SpriteRenderer Renderer;
-
-    public Sprite[] Sprites;
-
-    public Direction Direction;
-
-
-    public List<Screamer> OtherScreamers = new List<Screamer>();
 
     void Start()
     {
@@ -35,17 +29,17 @@ public class Screamer : MonoBehaviour
         {
             if (Input.GetKeyUp(KeyCode.Space))
             {
-                DoScream();
+                DoAction();
             }
         }
     }
 
-    public void DoScream()
+	public override void DoAction()
     {
-        if (!IsScreaming)
+        if (!IsActionCompleted)
         {
-            IsScreaming = true;
-            PTweenManager.Instance.RoutineTo(1, 1, 0, (callback) =>
+            IsActionCompleted = true;
+            PTweenManager.Instance.RoutineTo(ScreamLength, 1, 0, (callback) =>
                {
                    Scream.SetCutout(callback);
                },
@@ -59,10 +53,10 @@ public class Screamer : MonoBehaviour
 
     private void CheckColliderOtherScreamers()
     {
-        foreach (var screamer in OtherScreamers)
+        foreach (var interactive in OtherInteractives)
         {
             var is_blocked = false;
-            var direction = (screamer.transform.position - transform.position);
+            var direction = (interactive.transform.position - transform.position);
             RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, direction.magnitude);
             foreach (var hit in hits)
             {
@@ -77,7 +71,7 @@ public class Screamer : MonoBehaviour
 
             if (!is_blocked)
             {
-                screamer.DoScream();
+                interactive.DoAction();
             }
         }
     }
