@@ -34,11 +34,12 @@ public class Screamer : InteractiveHarmonyMonoBehaviour
         }
     }
 
-	public override void DoAction()
+    public override void DoAction()
     {
         if (!IsActionCompleted)
         {
             IsActionCompleted = true;
+            MusicManager.Instance.PlayNext();
             PTweenManager.Instance.RoutineTo(ScreamLength, 1, 0, (callback) =>
                {
                    Scream.SetCutout(callback);
