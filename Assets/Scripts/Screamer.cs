@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.Collections.Generic;
 public class Screamer : MonoBehaviour
 {
 
@@ -21,6 +21,9 @@ public class Screamer : MonoBehaviour
 
     public Direction Direction;
 
+
+    public List<Screamer> OtherScreamers = new List<Screamer>();
+
     void Start()
     {
         Renderer = GetComponent<SpriteRenderer>();
@@ -30,28 +33,53 @@ public class Screamer : MonoBehaviour
     {
         if (IsStart)
         {
-            if (!IsScreaming)
+            if (Input.GetKeyUp(KeyCode.Space))
             {
-                if (Input.GetKeyUp(KeyCode.Space))
-                {
-                    IsScreaming = true;
-                    PTweenManager.Instance.RoutineTo(1, 1, 0, (callback) =>
-                       {
-                           Scream.SetCutout(callback);
-                       },
-                    () =>
-						{
-							CheckColliderOtherScreamers();
-						}
-					);
-                }
+                DoScream();
             }
+        }
+    }
+
+    public void DoScream()
+    {
+        if (!IsScreaming)
+        {
+            IsScreaming = true;
+            PTweenManager.Instance.RoutineTo(1, 1, 0, (callback) =>
+               {
+                   Scream.SetCutout(callback);
+               },
+            () =>
+                {
+                    CheckColliderOtherScreamers();
+                }
+            );
         }
     }
 
     private void CheckColliderOtherScreamers()
     {
-		
+        foreach (var screamer in OtherScreamers)
+        {
+            var is_blocked = false;
+            var direction = (screamer.transform.position - transform.position);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, direction.magnitude);
+            foreach (var hit in hits)
+            {
+                if (hit.collider != null)
+                {
+                    if (hit.collider.tag == "Box")
+                    {
+                        is_blocked = true;
+                    }
+                }
+            }
+
+            if (!is_blocked)
+            {
+                screamer.DoScream();
+            }
+        }
     }
 
     void OnMouseDown()
