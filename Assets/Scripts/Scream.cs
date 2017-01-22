@@ -64,7 +64,7 @@ public class Scream : MonoBehaviour
             var scream_max = polygonCollider.bounds.max;
             var scream_min = polygonCollider.bounds.min;
 
-            if (Screamer.Direction == Direction.Left)
+            if (Screamer.Direction == HarmonyGameDirection.Left)
             {
                 var tempX = scream_max.x;
                 scream_max = new Vector2(scream_min.x, scream_max.y);
@@ -76,7 +76,7 @@ public class Scream : MonoBehaviour
                 box_max = new Vector2(box_min.x, symmetry_min_y);
                 box_min = new Vector2(tempX, symmetry_max_y);
             }
-            else if (Screamer.Direction == Direction.Up)
+            else if (Screamer.Direction == HarmonyGameDirection.Up)
             {
                 scream_max = new Vector2(scream_max.y, scream_max.x);
                 scream_min = new Vector2(scream_min.y, scream_min.x);
@@ -90,7 +90,7 @@ public class Scream : MonoBehaviour
                 box_max = new Vector2(box_min.x, symmetry_min_y);
                 box_min = new Vector2(box_max.x, symmetry_max_y);
             }
-            else if (Screamer.Direction == Direction.Down)
+            else if (Screamer.Direction == HarmonyGameDirection.Down)
             {
                 scream_max = new Vector2(scream_max.y, scream_max.x);
                 scream_min = new Vector2(scream_min.y, scream_min.x);

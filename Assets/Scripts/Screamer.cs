@@ -8,7 +8,7 @@ public class Screamer : InteractiveHarmonyMonoBehaviour
     public float ScreamLength = 1;
 
     public Sprite[] Sprites;
-    public Direction Direction;
+    public HarmonyGameDirection Direction;
     public List<InteractiveHarmonyMonoBehaviour> OtherInteractives = new List<InteractiveHarmonyMonoBehaviour>();
 
     private int ScreamStrength;
@@ -115,24 +115,24 @@ public class Screamer : InteractiveHarmonyMonoBehaviour
     {
         switch (Direction)
         {
-            case Direction.Left:
+            case HarmonyGameDirection.Left:
                 {
-                    Direction = Direction.Down;
+                    Direction = HarmonyGameDirection.Down;
                 }
                 break;
-            case Direction.Down:
+            case HarmonyGameDirection.Down:
                 {
-                    Direction = Direction.Right;
+                    Direction = HarmonyGameDirection.Right;
                 }
                 break;
-            case Direction.Right:
+            case HarmonyGameDirection.Right:
                 {
-                    Direction = Direction.Up;
+                    Direction = HarmonyGameDirection.Up;
                 }
                 break;
-            case Direction.Up:
+            case HarmonyGameDirection.Up:
                 {
-                    Direction = Direction.Left;
+                    Direction = HarmonyGameDirection.Left;
                 }
                 break;
         }
@@ -144,7 +144,7 @@ public class Screamer : InteractiveHarmonyMonoBehaviour
 
 }
 
-public enum Direction
+public enum HarmonyGameDirection
 {
     Left,
     Down,
