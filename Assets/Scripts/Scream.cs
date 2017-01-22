@@ -33,8 +33,8 @@ public class Scream : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D collision){
-        if(collision.collider.tag == "Player"){
-            Screamer.OtherScreamers.Add(collision.collider.GetComponent<Screamer>());
+        if(collision.collider.tag == "Interactive"){
+            Screamer.OtherInteractives.Add(collision.collider.GetComponent<InteractiveHarmonyMonoBehaviour>());
         }
     }
 
@@ -46,8 +46,8 @@ public class Scream : MonoBehaviour
     void OnCollisionExit2D(Collision2D collision)
     {
         CalculateDrawing(collision);
-        if(collision.collider.tag == "Player"){
-            Screamer.OtherScreamers.Remove(collision.collider.GetComponent<Screamer>());
+        if(collision.collider.tag == "Interactive"){
+            Screamer.OtherInteractives.Remove(collision.collider.GetComponent<InteractiveHarmonyMonoBehaviour>());
         }
     }
 
